@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "vehicle")
 data class Vehicle (
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
     var id : Int,
     var type: String,
     var lat : Float,

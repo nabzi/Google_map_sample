@@ -50,7 +50,7 @@ class VehicleRepository (val apiService  : ApiService , val vehicleDao: VehicleD
                 val response = apiService.getVehicleList()
                // Log.d("LOGTAG1", response.body().toString())
                 if(response.isSuccessful)
-                    result = Resource.success(response.body())
+                    result = Resource.success(response.body()?.vehicles)
                 else
                     result = Resource(Status.ERROR, null, "error")
             } catch (exception: HttpException) {

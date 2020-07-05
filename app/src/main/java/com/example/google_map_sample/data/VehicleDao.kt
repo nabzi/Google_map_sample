@@ -11,10 +11,10 @@ import com.example.google_map_sample.model.Vehicle
 abstract class VehicleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun add(vararg Vehicle: Vehicle)
+    abstract suspend fun add(vararg Vehicle: Vehicle)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun addList(list: List<Vehicle>)
+    abstract suspend fun addList(list: List<Vehicle>)
 
     @Query("SELECT * FROM vehicle " )
     abstract fun loadVehicleList(): LiveData<List<Vehicle>>
