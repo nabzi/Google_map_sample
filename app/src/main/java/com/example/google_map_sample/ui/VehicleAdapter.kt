@@ -5,15 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.google_map_sample.R
+import com.example.google_map_sample.databinding.ItemVehicleBinding
 import com.example.google_map_sample.model.Vehicle
 
 
 class VehicleAdapter :  androidx.recyclerview.widget.ListAdapter<Vehicle, RecyclerView.ViewHolder>(diffCallback)  {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleViewHolder
-            = VehicleViewHolder(parent)
+            = VehicleViewHolder(
+        DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            R.layout.item_vehicle, parent, false
+        ))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         var vehicle = getItem(position)
@@ -46,13 +52,19 @@ class VehicleAdapter :  androidx.recyclerview.widget.ListAdapter<Vehicle, Recycl
         }
     }
 }
- class VehicleViewHolder(parent : ViewGroup) :
-     RecyclerView.ViewHolder( LayoutInflater.from(parent.context).inflate(R.layout.item_vehicle, parent, false)) {
+ class VehicleViewHolder( val binding : ItemVehicleBinding) :
+         RecyclerView.ViewHolder(
+            binding.root
+         ) {
         private val txtType = itemView.findViewById<TextView>(R.id.tvVehicleType)
         var vehicle:Vehicle? = null
      fun bindTo(vehicle: Vehicle) {
          this.vehicle  = vehicle
          txtType.text = vehicle.type
+         with(binding) {
+             vehicleitem = vehicle
+             executePendingBindings()
+         }
      }
 
  }

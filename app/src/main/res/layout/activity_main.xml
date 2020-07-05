@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         app:spanCount="2"
         tools:context="com.google.samples.apps.sunflower.GardenActivity"
-        tools:listitem="@layout/list_item_vehicle"
+        tools:listitem="@layout/item_vehicle"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

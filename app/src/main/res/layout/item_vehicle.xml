@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vehicleitem"
+            type="com.example.google_map_sample.model.Vehicle"/>
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -19,6 +25,7 @@
 
     <ImageView
         android:id="@+id/icon"
+        app:imageFromUrl="@{vehicleitem.image_url}"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="24dp"
@@ -28,3 +35,4 @@
         app:layout_constraintStart_toEndOf="@+id/tvVehicleType"
         app:layout_constraintTop_toTopOf="@+id/tvVehicleType" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
