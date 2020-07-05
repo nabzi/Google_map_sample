@@ -4,7 +4,7 @@ import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.bumptech.glide.load.engine.Resource
+import com.example.google_map_sample.model.Resource
 import com.example.google_map_sample.model.Resource.loading
 import com.example.google_map_sample.model.Status
 import kotlinx.coroutines.CoroutineScope

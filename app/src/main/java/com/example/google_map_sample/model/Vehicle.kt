@@ -1,6 +1,9 @@
 package com.example.google_map_sample.model
 
-@Entity
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "vehicle")
 data class Vehicle (
     @PrimaryKey
     var id : Int,

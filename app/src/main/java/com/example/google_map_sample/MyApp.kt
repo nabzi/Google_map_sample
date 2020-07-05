@@ -5,6 +5,9 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.google_map_sample.data.DB
+import com.example.google_map_sample.repository.VehicleRepository
+import com.example.google_map_sample.ui.MainViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.koin.androidContext
@@ -30,5 +33,5 @@ val myModule = module {
     single{
         DB.get(androidContext())
     }
-    single { get<DB>().feedDao() }
+    single { get<DB>().vehicleDao() }
 }

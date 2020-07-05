@@ -46,32 +46,34 @@ class VehicleAdapter :  androidx.recyclerview.widget.ListAdapter<Vehicle, Recycl
         }
     }
 }
-class VehicleViewHolder(
-    private val binding: ListItemPlantBinding
-) : RecyclerView.ViewHolder(binding.root) {
+class VehicleViewHolder(itemView: View
+//    private val binding: ListItemPlantBinding
+) : RecyclerView.ViewHolder(itemView
+   // binding.root
+) {
     init {
-        binding.setClickListener {
-            binding.plant?.let { plant ->
-                navigateToPlant(plant, it)
-            }
-        }
+//        binding.setClickListener {
+//            binding.plant?.let { plant ->
+//                navigateToPlant(plant, it)
+//            }
+//        }
     }
 
     private fun navigateToPlant(
         vehicle: Vehicle,
         view: View
     ) {
-        val direction =
-            HomeViewPagerFragmentDirections.actionViewPagerFragmentToPlantDetailFragment(
-                vehicle.id
-            )
-        view.findNavController().navigate(direction)
+//        val direction =
+//            HomeViewPagerFragmentDirections.actionViewPagerFragmentToPlantDetailFragment(
+//                vehicle.id
+//            )
+//        view.findNavController().navigate(direction)
     }
 
     fun bind(item: Vehicle) {
-        binding.apply {
-            vehicle = item
-            executePendingBindings()
-        }
+        //binding.apply {
+//            vehicle = item
+//            executePendingBindings()
+ //       }
     }
 }
