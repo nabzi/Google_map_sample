@@ -6,6 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.google_map_sample.data.DB
+import com.example.google_map_sample.network.ApiService
+import com.example.google_map_sample.network.AppRetrofit
 import com.example.google_map_sample.repository.VehicleRepository
 import com.example.google_map_sample.ui.MainViewModel
 import kotlinx.coroutines.GlobalScope
@@ -29,9 +31,8 @@ class MyApp : Application(){
 }
 val myModule = module {
     viewModel { MainViewModel(get()) }
-    single { VehicleRepository(get()) }
-    single{
-        DB.get(androidContext())
-    }
-    single { get<DB>().vehicleDao() }
+    single{ VehicleRepository(get()) }
+    single{ DB.get(androidContext()) }
+    single{ AppRetrofit.getInstance().create(ApiService::class.java)}
+    single{ get<DB>().vehicleDao() }
 }

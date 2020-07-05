@@ -5,10 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.google_map_sample.R
 import com.example.google_map_sample.model.Vehicle
+
 
 class VehicleAdapter :  androidx.recyclerview.widget.ListAdapter<Vehicle, RecyclerView.ViewHolder>(diffCallback)  {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleViewHolder
@@ -17,10 +18,9 @@ class VehicleAdapter :  androidx.recyclerview.widget.ListAdapter<Vehicle, Recycl
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         var vehicle = getItem(position)
         if (vehicle != null) {
-            (holder as VehicleViewHolder).bind(vehicle);
+            (holder as VehicleViewHolder).bindTo(vehicle);
         }
     }
-
 
     companion object {
         /**
@@ -46,34 +46,13 @@ class VehicleAdapter :  androidx.recyclerview.widget.ListAdapter<Vehicle, Recycl
         }
     }
 }
-class VehicleViewHolder(itemView: View
-//    private val binding: ListItemPlantBinding
-) : RecyclerView.ViewHolder(itemView
-   // binding.root
-) {
-    init {
-//        binding.setClickListener {
-//            binding.plant?.let { plant ->
-//                navigateToPlant(plant, it)
-//            }
-//        }
-    }
+ class VehicleViewHolder(parent : ViewGroup) :
+     RecyclerView.ViewHolder( LayoutInflater.from(parent.context).inflate(R.layout.item_vehicle, parent, false)) {
+        private val txtType = itemView.findViewById<TextView>(R.id.tvVehicleType)
+        var vehicle:Vehicle? = null
+     fun bindTo(vehicle: Vehicle) {
+         this.vehicle  = vehicle
+         txtType.text = vehicle.type
+     }
 
-    private fun navigateToPlant(
-        vehicle: Vehicle,
-        view: View
-    ) {
-//        val direction =
-//            HomeViewPagerFragmentDirections.actionViewPagerFragmentToPlantDetailFragment(
-//                vehicle.id
-//            )
-//        view.findNavController().navigate(direction)
-    }
-
-    fun bind(item: Vehicle) {
-        //binding.apply {
-//            vehicle = item
-//            executePendingBindings()
- //       }
-    }
-}
+ }
