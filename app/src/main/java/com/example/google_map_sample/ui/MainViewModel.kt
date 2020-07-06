@@ -7,6 +7,5 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class MainViewModel  (vehicleRepository: VehicleRepository) : ViewModel(){
-    val vehicleList = vehicleRepository.getList(viewModelScope)
-
+    val vehicleList = vehicleRepository.getList()
 }
