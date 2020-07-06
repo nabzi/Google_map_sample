@@ -18,8 +18,9 @@ import java.net.SocketTimeoutException
 interface VehicleRepository{
     fun getList(coroutineScope: CoroutineScope = GlobalScope): LiveData<Resource<List<Vehicle>>>?
 }
-class VehicleRepositoryImpl(val apiService  : ApiService , val vehicleDao: VehicleDao ) {
-    fun getList(coroutineScope: CoroutineScope): LiveData<Resource<List<Vehicle>>>? {
+class VehicleRepositoryImpl(private val apiService  : ApiService, val vehicleDao: VehicleDao )  :VehicleRepository {
+
+    override fun getList(coroutineScope: CoroutineScope): LiveData<Resource<List<Vehicle>>>? {
         return object : NetworkBoundResource<List<Vehicle>, List<Vehicle>>(coroutineScope) {
             override fun onFetchFailed() {
                 super.onFetchFailed()
@@ -51,7 +52,6 @@ class VehicleRepositoryImpl(val apiService  : ApiService , val vehicleDao: Vehic
         coroutineScope.launch (Dispatchers.IO ) {
             try {
                 val response = apiService.getVehicleList()
-               // Log.d("LOGTAG1", response.body().toString())
                 if(response.isSuccessful)
                     result = Resource.success(response.body()?.vehicles)
                 else
@@ -70,8 +70,4 @@ class VehicleRepositoryImpl(val apiService  : ApiService , val vehicleDao: Vehic
         return resultLiveData
     }
 
-
-    fun insertTestData() {
-
-    }
 }
