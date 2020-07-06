@@ -12,12 +12,25 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvVehicles"
-        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:spanCount="2"
         tools:context="com.google.samples.apps.sunflower.GardenActivity"
-        tools:listitem="@layout/item_vehicle"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        tools:listitem="@layout/item_vehicle" />
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvVehicles" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>
