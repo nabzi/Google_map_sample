@@ -8,8 +8,8 @@ data class Vehicle (
     @PrimaryKey (autoGenerate = true)
     var id : Int,
     var type: String,
-    var lat : Float,
-    var lng : Float,
+    var lat : Double,
+    var lng : Double,
     var bearing : Int,
     var image_url : String
 )

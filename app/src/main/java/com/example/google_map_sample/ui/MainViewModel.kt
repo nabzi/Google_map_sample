@@ -8,4 +8,5 @@ import kotlinx.coroutines.launch
 
 class MainViewModel  (vehicleRepository: VehicleRepository) : ViewModel(){
     val vehicleList = vehicleRepository.getList(viewModelScope)
+
 }
