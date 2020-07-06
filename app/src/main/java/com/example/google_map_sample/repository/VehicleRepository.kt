@@ -10,12 +10,15 @@ import com.example.google_map_sample.model.Vehicle
 import com.example.google_map_sample.network.ApiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
-
-class VehicleRepository (val apiService  : ApiService , val vehicleDao: VehicleDao ) {
+interface VehicleRepository{
+    fun getList(coroutineScope: CoroutineScope = GlobalScope): LiveData<Resource<List<Vehicle>>>?
+}
+class VehicleRepositoryImpl(val apiService  : ApiService , val vehicleDao: VehicleDao ) {
     fun getList(coroutineScope: CoroutineScope): LiveData<Resource<List<Vehicle>>>? {
         return object : NetworkBoundResource<List<Vehicle>, List<Vehicle>>(coroutineScope) {
             override fun onFetchFailed() {
