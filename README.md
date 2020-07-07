@@ -11,3 +11,5 @@ List of most important tools used in this project is :
 - Mapview for showing google map in activity
 - ListAdapter for showing data optimally in a RecyclerView 
 
+Author : Zeinab Modir 
+zeinab.modir@gmail.com
