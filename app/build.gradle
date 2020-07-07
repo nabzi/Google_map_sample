@@ -18,7 +18,7 @@ allOpen {
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.avan.sugar"
+        applicationId "com.example.google_map_sample"
         minSdkVersion 19
         targetSdkVersion 29
         multiDexEnabled true
