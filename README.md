@@ -10,6 +10,9 @@ List of most important tools used in this project is :
 - Koin lightweight dependency injection framework for Kotlin
 - Mapview for showing google map in activity
 - ListAdapter for showing data optimally in a RecyclerView 
+- JUnit and Mockito for unit tests
+- Glide library for fetching images , and Retrofit for network calls
+
 
 Author : Zeinab Modir 
 zeinab.modir@gmail.com
