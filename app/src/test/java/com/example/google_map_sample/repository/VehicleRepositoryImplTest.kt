@@ -14,7 +14,7 @@ import org.junit.Test
 import org.mockito.Mockito
 
 class VehicleRepositoryImplTest{
-    
+
     var apiService = Mockito.mock(ApiService::class.java)
     var vehicleDao = Mockito.mock(VehicleDao::class.java)
     var list  = arrayListOf<Vehicle>()

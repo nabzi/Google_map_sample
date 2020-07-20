@@ -25,13 +25,14 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val mainViewModel : MainViewModel by viewModel()
-    lateinit var mapView  : MapView
+    private val mainViewModel: MainViewModel by viewModel()
+    lateinit var mapView: MapView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(
-            this, R.layout.activity_main)
+            this, R.layout.activity_main
+        )
         val adapter = VehicleAdapter()
         binding.rvVehicles.adapter = adapter
 
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
     private fun subscribeUi(adapter: VehicleAdapter) {
         mainViewModel.vehicleList?.observe(this, Observer { resource ->
             when (resource.status) {
@@ -56,9 +58,9 @@ class MainActivity : AppCompatActivity() {
                 Status.SUCCESS -> {
                     adapter.submitList(resource.data)
 
-                    mapView.getMapAsync{googleMap ->
+                    mapView.getMapAsync { googleMap ->
                         googleMap?.let {
-                                addMarkers(it, resource.data)
+                            addMarkers(it, resource.data)
                         }
                     }
 
@@ -66,42 +68,26 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
     private fun addMarkers(googleMap: GoogleMap, list: List<Vehicle>?) {
-        if (list == null)
-             return
-        var carPos : LatLng 
-        var bitmapList = arrayListOf<Bitmap>()
-
-        GlobalScope.async(Dispatchers.Main) {
-            val job = async(Dispatchers.IO) {
-                for (vehicle : Vehicle in list.iterator()) {
-
-                    val bitmap: Bitmap = Glide
-                        .with(this@MainActivity)
-                        .asBitmap()
-                        .load(vehicle.image_url)
-                        .submit()
-                        .get()
-                    bitmapList.add(bitmap)
-                }
+        if (list == null || list.isEmpty())
+            return
+        var carPos: LatLng
+        mainViewModel.loadBitmapList(this.baseContext, list).observe(this, Observer {
+            bitmapList ->
+            for ((index, vehicle) in list.iterator().withIndex()) {
+                carPos = LatLng(vehicle.lat, vehicle.lng)
+                googleMap.addMarker(
+                    MarkerOptions().position(carPos).title("").rotation(vehicle.bearing.toFloat())
+                        .icon(BitmapDescriptorFactory.fromBitmap(bitmapList[index]))
+                )
             }
-            job.await();
-
-           for ((index, vehicle) in list.iterator().withIndex()) {
-               carPos = LatLng(vehicle.lat, vehicle.lng)
-               googleMap.addMarker(
-                   MarkerOptions().position(carPos).title("").rotation(vehicle.bearing.toFloat())
-                       .icon(BitmapDescriptorFactory.fromBitmap(bitmapList[index]))
-               )
-           }
-
-        }
+        })
         googleMap.animateCamera(
             CameraUpdateFactory.newLatLngZoom(
                 LatLng(list[0].lat , list[0].lng), 17.0f
             )
         )
-
     }
     override fun onResume() {
         super.onResume()

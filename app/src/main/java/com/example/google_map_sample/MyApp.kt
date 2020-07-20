@@ -32,7 +32,7 @@ class MyApp : Application(){
 }
 val myModule = module {
     viewModel { MainViewModel(get()) }
-    single{ VehicleRepositoryImpl(get(),get()) }
+    single<VehicleRepository>{ VehicleRepositoryImpl(get(),get()) }
     single{ DB.get(androidContext()) }
     single{ AppRetrofit.getInstance().create(ApiService::class.java)}
     single{ get<DB>().vehicleDao() }
