@@ -18,7 +18,8 @@ import java.net.SocketTimeoutException
 interface VehicleRepository{
     fun getList(coroutineScope: CoroutineScope = GlobalScope): LiveData<Resource<List<Vehicle>>>?
 }
-class VehicleRepositoryImpl(private val apiService  : ApiService, val vehicleDao: VehicleDao )  :VehicleRepository {
+class VehicleRepositoryImpl(private val apiService  : ApiService, val vehicleDao: VehicleDao )
+      :VehicleRepository {
 
     override fun getList(coroutineScope: CoroutineScope): LiveData<Resource<List<Vehicle>>>? {
         return object : NetworkBoundResource<List<Vehicle>, List<Vehicle>>(coroutineScope) {

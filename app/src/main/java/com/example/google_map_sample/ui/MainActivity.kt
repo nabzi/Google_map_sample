@@ -23,6 +23,22 @@ import kotlinx.coroutines.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
+/*
+
+In this sample code,a list of cars is fetched by network call and shown both in a list and a map view.
+The code is in Kotlin language , and the architecture used is MVVM. Repository pattern is used to feed data to viewmodel.
+Hear is a list of tools used  :
+- Room , ViewModel and Livedata , along with databinding
+- Kotlin coroutines for asyncronous operations such as network call, fetching resources and inserting in database
+- Koin lightweight dependency injection framework for Kotlin
+- Mapview for showing google map in activity
+- ListAdapter for showing data optimally in a RecyclerView
+
+Author : Zeinab Modir
+zeinab.modir@gmail.com
+
+*/
+
 class MainActivity : AppCompatActivity() {
 
     private val mainViewModel: MainViewModel by viewModel()
