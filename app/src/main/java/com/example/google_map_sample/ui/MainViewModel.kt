@@ -20,25 +20,20 @@ class MainViewModel  (vehicleRepository: VehicleRepository) : ViewModel(){
     fun loadBitmapList(context: Context? ,  list: List<Vehicle>): LiveData<List<Bitmap>> {
         var bitmapList = arrayListOf<Bitmap>()
         var liveData = MutableLiveData<List<Bitmap>>()
-        viewModelScope.async(context = Dispatchers.Main) {
+        viewModelScope.launch (context = Dispatchers.IO) {
             context?.let {
-                val job = async(Dispatchers.IO) {
-                    for (vehicle: Vehicle in list.iterator()) {
-                        val bitmap: Bitmap = Glide
-                            .with(it)
-                            .asBitmap()
-                            .load(vehicle.image_url)
-                            .submit()
-                            .get()
-                        bitmapList.add(bitmap)
-                    }
+                for (vehicle: Vehicle in list.iterator()) {
+                    val bitmap: Bitmap = Glide
+                        .with(it)
+                        .asBitmap()
+                        .load(vehicle.image_url)
+                        .submit()
+                        .get()
+                    bitmapList.add(bitmap)
                 }
-                job.await();
                 liveData.postValue(bitmapList)
             }
         }
         return liveData
     }
-
-
 }
