@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.google_map_sample.R
 import com.example.google_map_sample.databinding.ActivityMainBinding
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -54,43 +56,45 @@ class MainActivity : AppCompatActivity() {
 
         mapView = binding.mapview
         subscribeUi(adapter)
-        with(mapView) {
+
             // Initialise the MapView
-            onCreate(null)
-            MapsInitializer.initialize(applicationContext)
-        }
+            mapView.onCreate(null)
+
+
+        MapsInitializer.initialize(applicationContext)
 
     }
 
     private fun subscribeUi(adapter: VehicleAdapter) {
-        mainViewModel.vehicleList?.observe(this, Observer { resource ->
-            when (resource.status) {
-                Status.LOADING -> {
-                    //show progress
-                }
-                Status.ERROR -> {
-                    //hide progress
-                }
-                Status.SUCCESS -> {
-                    adapter.submitList(resource.data)
-
-                    mapView.getMapAsync { googleMap ->
-                        googleMap?.let {
-                            addMarkers(it, resource.data)
-                        }
+        this.lifecycleScope.launch {
+            mainViewModel.vehicleList?.collect { resource ->
+                when (resource.status) {
+                    Status.LOADING -> {
+                        //show progress
                     }
+                    Status.ERROR -> {
+                        //hide progress
+                    }
+                    Status.SUCCESS -> {
+                        adapter.submitList(resource.data)
 
+                        mapView.getMapAsync { googleMap ->
+                            googleMap?.let {
+                                addMarkers(it, resource.data)
+                            }
+                        }
+
+                    }
                 }
             }
-        })
+        }
     }
 
     private fun addMarkers(googleMap: GoogleMap, list: List<Vehicle>?) {
         if (list == null || list.isEmpty())
             return
         var carPos: LatLng
-        mainViewModel.loadBitmapList(this.baseContext, list).observe(this, Observer {
-            bitmapList ->
+        mainViewModel.loadBitmapList(this.baseContext, list).observe(this, Observer { bitmapList ->
             for ((index, vehicle) in list.iterator().withIndex()) {
                 carPos = LatLng(vehicle.lat, vehicle.lng)
                 googleMap.addMarker(
@@ -101,10 +105,11 @@ class MainActivity : AppCompatActivity() {
         })
         googleMap.animateCamera(
             CameraUpdateFactory.newLatLngZoom(
-                LatLng(list[0].lat , list[0].lng), 17.0f
+                LatLng(list[0].lat, list[0].lng), 17.0f
             )
         )
     }
+
     override fun onResume() {
         super.onResume()
         mapView.onResume()

@@ -9,12 +9,16 @@ import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.example.google_map_sample.model.Vehicle
 import com.example.google_map_sample.repository.VehicleRepository
+import com.example.google_map_sample.repository.VehicleRepository2
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class MainViewModel  (vehicleRepository: VehicleRepository) : ViewModel(){
+class MainViewModel  (vehicleRepository: VehicleRepository2) : ViewModel(){
     val vehicleList = vehicleRepository.getList()
 
     fun loadBitmapList(context: Context? ,  list: List<Vehicle>): LiveData<List<Bitmap>> {

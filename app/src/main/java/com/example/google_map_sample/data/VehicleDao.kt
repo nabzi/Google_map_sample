@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.google_map_sample.model.Vehicle
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class VehicleDao {
@@ -18,4 +19,7 @@ abstract class VehicleDao {
 
     @Query("SELECT * FROM vehicle " )
     abstract fun loadVehicleList(): LiveData<List<Vehicle>>
+
+    @Query("SELECT * FROM vehicle " )
+    abstract fun loadVehicleListFLow(): Flow<List<Vehicle>>
 }
