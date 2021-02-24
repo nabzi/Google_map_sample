@@ -57,8 +57,8 @@ class MainActivity : AppCompatActivity() {
         mapView = binding.mapview
         subscribeUi(adapter)
 
-            // Initialise the MapView
-            mapView.onCreate(null)
+        // Initialise the MapView
+        mapView.onCreate(null)
 
 
         MapsInitializer.initialize(applicationContext)
