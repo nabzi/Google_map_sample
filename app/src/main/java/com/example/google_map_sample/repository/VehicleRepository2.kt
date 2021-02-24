@@ -14,14 +14,17 @@ import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 interface VehicleRepository2{
-    fun getList(): Flow<Resource<List<Vehicle>>>
+    fun getList(shouldFetch : Boolean): Flow<Resource<List<Vehicle>>>
 }
 class VehicleRepositoryImpl2(private val apiService  : ApiService, val vehicleDao: VehicleDao )
       :VehicleRepository2 {
 
 
-    override fun getList(): Flow<Resource<List<Vehicle>>> {
-        return pullFromServer()
+    override fun getList(shouldFetch : Boolean): Flow<Resource<List<Vehicle>>> {
+        pullFromServer()
+        return vehicleDao.loadVehicleListFLow().map {
+            Resource.success(it)
+        }
     }
 
     private fun pullFromServer(): Flow<Resource<List<Vehicle>>> {
@@ -31,8 +34,12 @@ class VehicleRepositoryImpl2(private val apiService  : ApiService, val vehicleDa
       return flow{
             try {
                 val response = apiService.getVehicleList()
-                if (response.isSuccessful)
+                if (response.isSuccessful) {
                     result = Resource.success(response.body()?.vehicles)
+                    response.body()?.vehicles?.let{
+                        vehicleDao.addList(it)
+                    }
+                }
                 else
                     result = Resource(Status.ERROR, null, "error")
             } catch (exception: HttpException) {
