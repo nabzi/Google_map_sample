@@ -35,4 +35,5 @@ val myModule = module {
     single{ DB.get(androidContext()) }
     single{ AppRetrofit.getInstance().create(ApiService::class.java)}
     single{ get<DB>().vehicleDao() }
+    viewModel {  MainViewModel(get()) }
 }
