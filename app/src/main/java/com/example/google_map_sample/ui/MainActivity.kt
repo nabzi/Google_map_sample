@@ -3,6 +3,7 @@ package com.example.google_map_sample.ui
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -59,8 +60,6 @@ class MainActivity : AppCompatActivity() {
 
         // Initialise the MapView
         mapView.onCreate(null)
-
-
         MapsInitializer.initialize(applicationContext)
 
     }

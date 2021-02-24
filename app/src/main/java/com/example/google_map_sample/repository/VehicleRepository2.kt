@@ -9,38 +9,26 @@ import com.example.google_map_sample.model.Status
 import com.example.google_map_sample.model.Vehicle
 import com.example.google_map_sample.network.ApiService
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 interface VehicleRepository2{
-    suspend fun getList(): Flow<Resource<List<Vehicle>>>?
+    fun getList(): Flow<Resource<List<Vehicle>>>
 }
 class VehicleRepositoryImpl2(private val apiService  : ApiService, val vehicleDao: VehicleDao )
       :VehicleRepository2 {
 
-    override suspend fun getList(): Flow<Resource<List<Vehicle>>>? {
-        return pullFromServer()
-//        return flow {
-//            pullFromServer()
-//                .collect {
-//                it.data?.let{ vehicleDao.addList(it)}
-//                emit(it) }
-//
-//        }
 
+    override fun getList(): Flow<Resource<List<Vehicle>>> {
+        return pullFromServer()
     }
 
-    private suspend fun pullFromServer(): Flow<Resource<List<Vehicle>>> {
+    private fun pullFromServer(): Flow<Resource<List<Vehicle>>> {
         var result: Resource<List<Vehicle>> = Resource.loading(null)
-        val resultFlow = MutableStateFlow(result)
-       // withContext(Dispatchers.IO) {
+        //val resultFlow = MutableStateFlow(result)
 
-//        coroutineScope.launch (Dispatchers.IO ) {
+      return flow{
             try {
                 val response = apiService.getVehicleList()
                 if (response.isSuccessful)
@@ -60,11 +48,11 @@ class VehicleRepositoryImpl2(private val apiService  : ApiService, val vehicleDa
             } catch (exception: Exception) {
                 result = Resource(Status.ERROR, null, exception.message)
             }
-            resultFlow.emit(result)
+            //resultFlow.emit(result)
             //}
-
-       // }
-        return resultFlow
+            emit(result)
+        }.flowOn(Dispatchers.IO)
+       // return resultFlow
     }
 
 }
