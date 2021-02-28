@@ -18,7 +18,8 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class MainViewModel  (vehicleRepository: VehicleRepository2) : ViewModel() {
-    var vehicleList : Flow<Resource<List<Vehicle>>>? =  vehicleRepository.getList(true)
+    var vehicleList =
+        vehicleRepository.getList(true , viewModelScope)
 
     fun loadBitmapList(context: Context? ,  list: List<Vehicle>): LiveData<List<Bitmap>> {
         var bitmapList = arrayListOf<Bitmap>()

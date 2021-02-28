@@ -66,25 +66,35 @@ class MainActivity : AppCompatActivity() {
 
     private fun subscribeUi(adapter: VehicleAdapter) {
         this.lifecycleScope.launch {
-            mainViewModel.vehicleList?.collect { resource ->
-                when (resource.status) {
-                    Status.LOADING -> {
-                        //show progress
-                    }
-                    Status.ERROR -> {
-                        //hide progress
-                    }
-                    Status.SUCCESS -> {
-                        adapter.submitList(resource.data)
+            mainViewModel.vehicleList?.collect { resource
+                ->
+                resource?.data?.let {
+                    adapter.submitList(it)
 
-                        mapView.getMapAsync { googleMap ->
-                            googleMap?.let {
-                                addMarkers(it, resource.data)
-                            }
+                    mapView.getMapAsync { googleMap ->
+                        googleMap?.let { map ->
+                            addMarkers(map, it)
                         }
-
                     }
                 }
+//                when (resource?.status) {
+//                    Status.LOADING -> {
+//                        //show progress
+//                    }
+//                    Status.ERROR -> {
+//                        //hide progress
+//                    }
+//                    Status.SUCCESS -> {
+//                        adapter.submitList(resource.data)
+//
+//                        mapView.getMapAsync { googleMap ->
+//                            googleMap?.let {
+//                                addMarkers(it, resource.data)
+//                            }
+//                        }
+//
+//                    }
+//                }
             }
         }
     }
