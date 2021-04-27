@@ -24,7 +24,6 @@ interface VehicleRepository2 {
 class VehicleRepositoryImpl2(private val apiService: ApiService, val vehicleDao: VehicleDao) :
     VehicleRepository2 {
 
-
     override fun getList(
         shouldFetch: Boolean,
         coroutineScope: CoroutineScope
